@@ -14,7 +14,7 @@
 <div th:replace="~{fragments/header :: header}"></div>
 <div class="container">
   <h1 class="mb-4">Edit Blog</h1>
-  <form th:action="@{/blogs}" th:object="${blog}" method="post" class="needs-validation" novalidate>
+  <form th:action="@{/blogs/edit/{blogid}(blogid=${editedblogid})}" th:object="${blog}" method="post" class="needs-validation" novalidate>
     <div class="mb-3">
       <label for="title" class="form-label">Title:</label>
       <input type="text" id="title" th:field="*{title}" class="form-control" required/>

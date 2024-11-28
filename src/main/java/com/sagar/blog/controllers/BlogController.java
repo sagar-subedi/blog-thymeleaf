@@ -57,6 +57,7 @@ public class BlogController {
         blog.setTags(tags);
         blog.setContent(blogDto.getContent());
         blog.setTitle(blogDto.getTitle());
+        blog.setId(blogDto.getId());
         blogService.saveBlog(blog);
         return "redirect:/blogs";
     }
@@ -66,6 +67,8 @@ public class BlogController {
         Blog blog = blogService.getBlogById(id);
 
         BlogDTO blogDTO = new BlogDTO();
+
+        blogDTO.setId(blog.getId());
         blogDTO.setTitle(blog.getTitle());
         blogDTO.setContent(blog.getContent());
         blogDTO.setCategoryId(blog.getCategory().getId());
@@ -77,9 +80,25 @@ public class BlogController {
         blogDTO.setTagIds(tagIds);
 
         model.addAttribute("blog", blogDTO);
+        model.addAttribute("editedblogid", blogDTO.getId());
         model.addAttribute("availableCategories", categoryRepository.findAll());
         model.addAttribute("availableTags", tagRepository.findAll());
         return "blogs/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editeBlog(@PathVariable Long id, @ModelAttribute BlogDTO blogDto) {
+
+        Blog blog = new Blog();
+        Category category = categoryRepository.findById(blogDto.getCategoryId()).orElseThrow();
+        List<Tag> tags = tagRepository.findByIdIn(blogDto.getTagIds());
+        blog.setCategory(category);
+        blog.setTags(tags);
+        blog.setContent(blogDto.getContent());
+        blog.setTitle(blogDto.getTitle());
+        blog.setId(id);
+        blogService.saveBlog(blog);
+        return "redirect:/blogs";
     }
 
     @GetMapping("/view/{id}")

@@ -36,7 +36,7 @@
         <tr th:each="blog : ${blogs}">
             <!-- Blog Title as a clickable link -->
             <td>
-                <a th:href="@{/blogs/{id}(id=${blog.id})}" th:text="${blog.title}"></a>
+                <a th:href="@{/blogs/view/{id}(id=${blog.id})}" th:text="${blog.title}"></a>
             </td>
             <td th:text="${blog.category.name}"></td>
             <!-- Tags Column -->
